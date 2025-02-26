@@ -29,22 +29,21 @@ def process_feed(feed):
     return pd.DataFrame(data)
 
 # Current time plus number of hours * 3600 
-end_time = time.time() + 60
+end_time = time.time() + 20*3600
 csv_path = 'log.csv'
-wait_time = 1
-
+wait_time = 30
 prev_time = None
+
 # Run until hit specified end time 
 while time.time() < end_time:
      # Read the current feed from the PB 
      feed = get_feed()
-
      if feed.header.timestamp != prev_time: 
+          print(f"Got new data @ {feed.header.timestamp}")
           # Process feed into a DF and add it to the CSV 
           output = process_feed(feed)
           output.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
-          prev_time = feed.header.timestamp 
+          prev_time = feed.header.timestamp
 
      # Wait a lil bit
      time.sleep(wait_time)
-     
