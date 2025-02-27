@@ -18,8 +18,7 @@ def process_feed(feed):
          data.append({
             "timestamp": feed.header.timestamp,
             "vehicle_id": vehicle.vehicle.id,
-            "latitude": vehicle.position.latitude,
-            "longitude": vehicle.position.longitude,
+            "Coordinates": zip(vehicle.position.longitude, vehicle.position.latitude),
             "speed": vehicle.position.speed if vehicle.position.HasField("speed") else None,
             "bearing": vehicle.position.bearing if vehicle.position.HasField("bearing") else None,
             "trip_id": vehicle.trip.trip_id if vehicle.trip.HasField("trip_id") else None,
@@ -30,7 +29,7 @@ def process_feed(feed):
 
 # Current time plus number of hours * 3600 
 end_time = time.time() + 20*3600
-csv_path = 'log.csv'
+csv_path = 'gtfs_record.csv'
 wait_time = 30
 prev_time = None
 
